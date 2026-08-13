@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 
 var indexRouter = require('./app_server/routes/index');
 var usersRouter = require('./app_server/routes/users');
@@ -15,6 +16,8 @@ require('./app_api/models/db');
 
 var app = express();
 
+app.use(cors());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 
@@ -22,7 +25,15 @@ hbs.registerPartials(__dirname + '/app_server/views/partials');
 
 app.set('view engine', 'hbs');
 
+//enable CORS
+app.use('/api', (req, res, next) => {
+  res.header('Access-Control-Allow_Origin', 'http://localhost:4200');
+  res.header('Access-Control_Allow_Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  next();
+});
 
+// wire up routes to controllers
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

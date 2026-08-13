@@ -7,10 +7,12 @@ router.route("/trips").get(tripsController.tripsList);
 
 router
     .route('/trips')
-    .get(tripsController.tripsList); //GET method routes tripList
+    .get(tripsController.tripsList) //GET method routes tripList
+    .post(tripsController.tripsAddTrip); // Post Method adds a trip
 
 router
     .route('/trips/:tripCode')
-    .get(tripsController.tripsFindByCode);
+    .get(tripsController.tripsFindByCode)
+    .put(tripsController.tripsUpdateTrip);
 
 module.exports = router;
